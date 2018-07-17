@@ -91,17 +91,17 @@ module.exports = function descargar(res) {
             // default is 0, units: mm, cm, in, px
             top: '0cm',
             right: '0cm',
-            bottom: '0cm',
+            bottom: '1cm',
             left: '0cm'
         },
         header: {
-            height: '3.5cm',
+            height: '7.5cm',
         },
         footer: {
-            height: '10mm',
-            contents: {
-                default: '<small class="text-muted">{{page}}</small>/<small class="text-muted">{{pages}}</small>'
-            }
+            height: '7.5cm',
+            // contents: {
+            //     default: ''
+            // }
         }
     };
 
