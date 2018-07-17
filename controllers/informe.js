@@ -5,15 +5,12 @@ let pdf = require('html-pdf');
 
 module.exports = function descargar(res) {
 
-    const input = 'informe.html';
-
     // Se leen header y footer (si se le pasa un encoding, devuelve un string)
-    let headerHTML = fs.readFileSync(path.join(__dirname, '../assets/includes/header.html'), 'utf8');
-    let footerHTML = fs.readFileSync(path.join(__dirname, '../assets/includes/footer.html'), 'utf8');
+    let html = fs.readFileSync(path.join(__dirname, '../assets/informe.html'), 'utf8');
+    let header = fs.readFileSync(path.join(__dirname, '../assets/includes/header.html'), 'utf8');
+    let footer = fs.readFileSync(path.join(__dirname, '../assets/includes/footer.html'), 'utf8');
 
-    let html = headerHTML;
-    html += fs.readFileSync(path.join(__dirname, '../assets/informe.html'), 'utf8');
-    html += footerHTML;
+    html = header + html + footer;
 
     // Se cargan logos
     let logoEfector = fs.readFileSync(path.join(__dirname, '../assets/img/logo-efector.png'));
@@ -33,12 +30,10 @@ module.exports = function descargar(res) {
         .replace('<!--firma1-->', `<img class="logo-andes" src="data:image/png;base64,${firma1.toString('base64')}">`)
         .replace('<!--firma2-->', `<img class="logo-andes" src="data:image/png;base64,${firma2.toString('base64')}">`)
         .replace('<!--logoPDP-->', `<img class="logo-pdp" src="data:image/png;base64,${logoPDP.toString('base64')}">`)
-        .replace('<!--logoPDP2-->', `<img class="logo-pdp-h" src="data:image/png;base64,${logoPDP2.toString('base64')}">`)
+        .replace('<!--logoPDP2-->', `<img class="logo-pdp-h" src="data:image/png;base64,${logoPDP2.toString('base64')}">`);
 
     // Se agregan los estilos CSS
     let scssFile = path.join(__dirname, '../assets/sass/main.scss');
-
-    console.log(__dirname);
 
     // Se agregan los estilos
     let css = '<style>\n\n';
@@ -46,12 +41,6 @@ module.exports = function descargar(res) {
     // SCSS => CSS
     css += scss.renderSync({
         file: scssFile,
-    }, (err, result) => {
-        if (err) {
-            res.json({
-                err: err
-            });
-        }
     }).css;
     css += '</style>';
     html += css;
